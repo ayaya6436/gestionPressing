@@ -11,26 +11,26 @@
 				<div class="row">
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="" class="control-label">Date From</label>
+							<label for="" class="control-label">De</label>
 							<input type="date" class="form-control" name="d1" id="d1" value="<?php echo date("Y-m-d",strtotime($d1)) ?>">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="" class="control-label">Date To</label>
+							<label for="" class="control-label">A</label>
 							<input type="date" class="form-control" name="d2" id="d2" value="<?php echo date("Y-m-d",strtotime($d2)) ?>">
 						</div>
 					</div>
 					<div class="col-md-2">
 						<div class="form-group">
 							<label for="" class="control-label">&nbsp;</label>
-							<button class="btn-block btn-primary btn-sm" type="button" id="filter">Filter</button>
+							<button class="btn-block btn-primary btn-sm" type="button" id="filter">Filtrer</button>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<div class="form-group">
 							<label for="" class="control-label">&nbsp;</label>
-							<button class="btn-block btn-primary btn-sm" type="button" id="print"><i class="fa fa-print"></i> Print</button>
+							<button class="btn-block btn-primary btn-sm" type="button" id="print"><i class="fa fa-print"></i> Imprimer</button>
 						</div>
 					</div>
 				</div>
@@ -38,7 +38,7 @@
 				<div class="row" id="print-data">
 					<div style="width:100%">
 					<p class="text-center">
-						<large><b>Laundry Management System Report</b></large>
+						<large><b>PreesClean Rapport</b></large>
 					</p>
 					<p class="text-center">
 						<large><b><?php echo $data ?></b></large>
@@ -50,29 +50,29 @@
 						<thead>
 							<tr>
 								<th>Date</th>
-								<th>Customer Name</th>
-								<th>Total Amount</th>
+								<th>Nom du client</th>
+								<th>Montant Total</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
 								
 								$total = 0;
-								$qry = $conn->query("SELECT * FROM laundry_list where pay_status = 1 and date(date_created) between '$d1' and '$d2' ");
+								$qry = $conn->query("SELECT * FROM commandes where pay_status = 1 and date(date_creation) between '$d1' and '$d2' ");
 								while($row=$qry->fetch_assoc()):
-									$total += $row['total_amount'];
+									$total += $row['montant_total'];
 							?>
 							<tr>
-								<td><?php echo date("M d, Y",strtotime($row['date_created'])) ?></td>
-								<td><?php echo ucwords($row['customer_name']) ?></td>
-								<td class='text-right'><?php echo number_format($row['total_amount'],2) ?></td>
+								<td><?php echo date("M d, Y",strtotime($row['date_creation'])) ?></td>
+								<td><?php echo ucwords($row['nom_client']) ?></td>
+								<td class='text-right'><?php echo number_format($row['montant_total'],2)." Fcfa" ?></td>
 							</tr>
 							<?php endwhile; ?>
 						</tbody>
 						<tfoot>
 							<tr>
 								<td class="text-right" colspan="2">Total</td>
-								<td class="text-right"><?php echo number_format($total,2) ?></td>
+								<td class="text-right"><?php echo number_format($total,2)." Fcfa"?></td>
 							</tr>
 						</tfoot>
 					</table>

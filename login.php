@@ -13,7 +13,7 @@
 <?php 
 session_start();
 if(isset($_SESSION['login_id']))
-header("location:index.php?page=home");
+header("location:index.php?page=dashboard");
 
 ?>
 
@@ -99,7 +99,7 @@ header("location:index.php?page=home");
 			},
 			success:function(resp){
 				if(resp == 1){
-					location.href ='index.php?page=home';
+					location.href ='index.php?page=dashboard';
 				}else if(resp == 2){
 					location.href ='voting.php';
 				}else{

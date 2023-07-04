@@ -2,7 +2,7 @@
 include "db_connect.php";
 
 if(isset($_GET['id'])){
-	$qry = $conn->query("SELECT * FROM commandes where id =".$_GET['id']);
+	$qry = $conn->query("SELECT * FROM laundry_list where id =".$_GET['id']);
 	foreach($qry->fetch_array() as $k => $v){
 		$$k = $v;
 	}
@@ -17,8 +17,8 @@ if(isset($_GET['id'])){
 			<div class="row">
 				<div class="col-md-6">	
 					<div class="form-group">	
-						<label for="" class="control-label">Nom du client</label>
-						<input type="text" class="form-control" name="nom_client" value="<?php echo isset($nom_client) ? $nom_client : '' ?>">
+						<label for="" class="control-label">Customer Name</label>
+						<input type="text" class="form-control" name="customer_name" value="<?php echo isset($customer_name) ? $customer_name : '' ?>">
 					</div>
 				</div>
 				<?php if(isset($_GET['id'])): ?>
@@ -35,32 +35,38 @@ if(isset($_GET['id'])){
 				</div>
 				<?php endif; ?>
 			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label class="control-label">Remarks</label>
+					<textarea name="remarks" id="" cols="30" rows="2" class="form-control"><?php echo isset($remarks) ? $remarks : '' ?></textarea>
+				</div>
+			</div>
 			<hr>	
 			<div class="row">	
 				<div class="col-md-4">	
 					<div class="form-group">	
-						<label for="" class="control-label">Categories</label>
+						<label for="" class="control-label">Laundry Category</label>
 						<select class="custom-select browser-default" id="laundry_category_id">
 							<?php 
-								$cat = $conn->query("SELECT * FROM categories order by nom asc");
+								$cat = $conn->query("SELECT * FROM laundry_categories order by name asc");
 								while($row= $cat->fetch_assoc()):
-									$cname_arr[$row['id']] = $row['nom'];
+									$cname_arr[$row['id']] = $row['name'];
 							?>
-							<option value="<?php echo $row['id'] ?>" data-price="<?php echo $row['prix'] ?>"><?php echo $row['nom'] ?></option>
+							<option value="<?php echo $row['id'] ?>" data-price="<?php echo $row['price'] ?>"><?php echo $row['name'] ?></option>
 							<?php endwhile; ?>
 						</select>
 					</div>
 				</div>
 				<div class="col-md-4">	
 					<div class="form-group">	
-						<label for="" class="control-label">Nombre</label>
+						<label for="" class="control-label">Weight</label>
 						<input type="number" step="any" min="1" value="1" class="form-control text-right" id="weight">
 					</div>
 				</div>
 				<div class="col-md-4">	
 					<div class="form-group">	
 						<label for="" class="control-label">&nbsp;</label>
-						<button class="btn btn-info btn-sm btn-block" type="button" id="add_to_list"><i class="fa fa-plus"></i> Ajouter a la liste</button>
+						<button class="btn btn-info btn-sm btn-block" type="button" id="add_to_list"><i class="fa fa-plus"></i> Add to List</button>
 					</div>
 				</div>
 			</div>
@@ -75,26 +81,26 @@ if(isset($_GET['id'])){
 					</colgroup>	
 					<thead>	
 						<tr>
-							<th class="text-center">Categories</th>
-							<th class="text-center">Nombre</th>
-							<th class="text-center">Prix unitaire</th>
-							<th class="text-center">Montant</th>
-							<th class="text-center">Actions</th>
+							<th class="text-center">Category</th>
+							<th class="text-center">Weight(kg)</th>
+							<th class="text-center">Unit Price</th>
+							<th class="text-center">Amount</th>
+							<th class="text-center"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php if(isset($_GET['id'])): ?>
 						<?php 
-							$list = $conn->query("SELECT * from articles where article_id = ".$id);
+							$list = $conn->query("SELECT * from laundry_items where laundry_id = ".$id);
 							while($row=$list->fetch_assoc()):
 						?>
 							<tr data-id="<?php echo $row['id'] ?>">
 								<td class="">
 									<input type="hidden" name="item_id[]" id="" value="<?php echo $row['id'] ?>">
-									<input type="hidden" name="categories_id[]" id="" value="<?php echo $row['categories_id'] ?>"><?php echo isset($cname_arr[$row['categories_id']]) ? ucwords($cname_arr[$row['categories_id']]) : '' ?></td>
+									<input type="hidden" name="laundry_category_id[]" id="" value="<?php echo $row['laundry_category_id'] ?>"><?php echo isset($cname_arr[$row['laundry_category_id']]) ? ucwords($cname_arr[$row['laundry_category_id']]) : '' ?></td>
 								<td><input type="number" class="text-center" name="weight[]" id="" value="<?php echo $row['weight'] ?>"></td>
-								<td class="text-right"><input type="hidden" name="prix_unitaire[]" id="" value="<?php echo $row['prix_unitaire'] ?>"><?php echo number_format($row['prix_unitaire'],2) ?></td>
-								<td class="text-right"><input type="hidden" name="montant[]" id="" value="<?php echo $row['montant'] ?>"><p><?php echo number_format($row['montant'],2) ?></p></td>
+								<td class="text-right"><input type="hidden" name="unit_price[]" id="" value="<?php echo $row['unit_price'] ?>"><?php echo number_format($row['unit_price'],2) ?></td>
+								<td class="text-right"><input type="hidden" name="amount[]" id="" value="<?php echo $row['amount'] ?>"><p><?php echo number_format($row['amount'],2) ?></p></td>
 								<td><button class="btn btn-sm btn-danger" type="button" onclick="rem_list($(this))"><i class="fa fa-times"></i></button></td>
 							</tr>
 						<?php endwhile; ?>
@@ -104,7 +110,7 @@ if(isset($_GET['id'])){
 					<tfoot>
 						<tr>
 							<th class="text-right" colspan="3"></th>
-							<th class="text-right" id="montant_total"></th>
+							<th class="text-right" id="tamount"></th>
 							<th class="text-right"></th>
 						</tr>
 					</tfoot>
@@ -122,20 +128,20 @@ if(isset($_GET['id'])){
 			<div class="row" id="payment">
 				<div class="col-md-6">
 					<div class="form-group">	
-						<label for="" class="control-label">montant_paye</label>
-						<input type="number" step="any" min="0" value="<?php echo isset($montant_paye) ? $montant_paye : 0 ?>" class="form-control text-right" name="montant_paye">
+						<label for="" class="control-label">Amount Tendered</label>
+						<input type="number" step="any" min="0" value="<?php echo isset($amount_tendered) ? $amount_tendered : 0 ?>" class="form-control text-right" name="tendered">
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">	
 						<label for="" class="control-label">Total Amount</label>
-						<input type="number" step="any" min="1" value="<?php echo isset($montant_total) ? $montant_total : 0 ?>" class="form-control text-right" name="montant_total" readonly="">
+						<input type="number" step="any" min="1" value="<?php echo isset($total_amount) ? $total_amount : 0 ?>" class="form-control text-right" name="tamount" readonly="">
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">	
-						<label for="" class="control-label">montant_restant</label>
-						<input type="number" step="any" min="1" value="<?php echo isset($montant_restant) ? $montant_restant : 0 ?>" class="form-control text-right" name="montant_restant" readonly="">
+						<label for="" class="control-label">Change</label>
+						<input type="number" step="any" min="1" value="<?php echo isset($amount_change) ? $amount_change : 0 ?>" class="form-control text-right" name="change" readonly="">
 					</div>
 				</div>
 			</div>
@@ -147,27 +153,27 @@ if(isset($_GET['id'])){
 			calc()
 		}
 	if($('[name="pay"]').prop('checked') == true){
-			$('[name="montant_paye"]').attr('required',true)
+			$('[name="tendered"]').attr('required',true)
 			$('#payment').show();
 		}else{
 			$('#payment').hide();
-			$('[name="montant_paye"]').attr('required',false)
+			$('[name="tendered"]').attr('required',false)
 		}	
 	$('#pay-switch').click(function(){
 		if($('[name="pay"]').prop('checked') == true){
-			$('[name="montant_paye"]').attr('required',true)
+			$('[name="tendered"]').attr('required',true)
 			$('#payment').show('slideDown');
 		}else{
 			$('#payment').hide('SlideUp');
-			$('[name="montant_paye"]').attr('required',false)
+			$('[name="tendered"]').attr('required',false)
 		}	
 	})
-	$('[name="montant_paye"],[name="montant_total"]').on('keyup keydown keypress montant_restant input',function(){
-		var tend = $('[name="montant_paye"]').val();
-		var amount = $('[name="montant_total"]').val();
-		var montant_restant = parseFloat(tend) - parseFloat(amount)
-		montant_restant = parseFloat(montant_restant).toLocaleString('en-US',{style:'decimal',maximumFractionDigits:2,minimumFractionDigits:2})
-		$('[name="montant_restant"]').val(montant_restant)
+	$('[name="tendered"],[name="tamount"]').on('keypup keydown keypress change input',function(){
+		var tend = $('[name="tendered"]').val();
+		var amount = $('[name="tamount"]').val();
+		var change = parseFloat(tend) - parseFloat(amount)
+		change = parseFloat(change).toLocaleString('en-US',{style:'decimal',maximumFractionDigits:2,minimumFractionDigits:2})
+		$('[name="change"]').val(change)
 	})
 	$('#add_to_list').click(function(){
 		var cat = $('#laundry_category_id').val(),
@@ -192,10 +198,10 @@ if(isset($_GET['id'])){
 		tr.append('<td><button class="btn btn-sm btn-danger" type="button" onclick="rem_list($(this))"><i class="fa fa-times"></i></button></td>')
 		$('#list tbody').append(tr)
 		calc()
-		$('[name="weight[]"]').on('keyup keydown keypress montant_restant',function(){
+		$('[name="weight[]"]').on('keyup keydown keypress change',function(){
 			calc();
 		})
-			$('[name="montant_paye"]').trigger('keypress')
+			$('[name="tendered"]').trigger('keypress')
 		
 		$('#laundry_category_id').val('')
 		$('#weight').val('')
@@ -203,7 +209,7 @@ if(isset($_GET['id'])){
 	function rem_list(_this){
 		_this.closest('tr').remove()
 		calc()
-			$('[name="montant_paye"]').trigger('keypress')
+			$('[name="tendered"]').trigger('keypress')
 
 
 	}
@@ -219,8 +225,8 @@ if(isset($_GET['id'])){
 			total+= amount;
 
 		})
-			$('[name="montant_total"]').val(total)
-			$('#montant_total').html(parseFloat(total).toLocaleString('en-US',{style:'decimal',maximumFractionDigits:2,minimumFractionDigits:2}))
+			$('[name="tamount"]').val(total)
+			$('#tamount').html(parseFloat(total).toLocaleString('en-US',{style:'decimal',maximumFractionDigits:2,minimumFractionDigits:2}))
 
 
 	}
