@@ -120,7 +120,7 @@
 </noscript>	
 <script>
 	$('#filter').click(function(){
-		location.replace('index.php?page=reports&d1='+$('#d1').val()+'&d2='+$('#d2').val())
+		location.replace('index.php?page=rapports&d1='+$('#d1').val()+'&d2='+$('#d2').val())
 	})
 	$('#print').click(function(){
 		var newWin = document.open('','_blank','height=500,width=600');

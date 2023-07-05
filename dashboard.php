@@ -33,8 +33,10 @@
 					include 'db_connect.php';
 					// $laundry = $conn->query("SELECT SUM(total_amount) as amount FROM commandes where pay_status= 1 and date(date_created)= '".date('Y-m-d')."'");
 					// echo $laundry->num_rows > 0 ? number_format($laundry->fetch_array()['amount'],2) : "0.00";
+					
 
 					 ?></large></b></p>
+					 5000 Fcfa
 				</div>
 				<div class="alert alert-info col-md-3 ml-4">
 					<p><b><large>Total Client du jour</large></b></p>
@@ -45,6 +47,7 @@
 					// echo $laundry->num_rows > 0 ? number_format($laundry->fetch_array()['count']) : "0";
 
 					 ?></large></b></p>
+					 4 clients
 				</div>
 				<div class="alert alert-primary col-md-3 ml-4">
 					<p><b><large>Total article nettoye du jour</large></b></p>
@@ -55,6 +58,7 @@
 					// echo $laundry->num_rows > 0 ? number_format($laundry->fetch_array()['count']) : "0";
 
 					 ?></large></b></p>
+					 2 articles
 				</div>
 				</div>
 			</div>

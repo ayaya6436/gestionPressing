@@ -10,7 +10,7 @@
 				<a href="index.php?page=categories" class="nav-item nav-categories"><span class='icon-field'><i class="fa fa-list"></i></span> Categories Nettoyage</a>	
 				<a href="index.php?page=produits" class="nav-item nav-supply"><span class='icon-field'><i class="fa fa-boxes"></i></span>Produits Nettoyage</a>	
 				<a href="index.php?page=stock" class="nav-item "><span class='icon-field'><i class="fa fa-list-alt"></i></span> Stock</a>
-				<a href="index.php?page=reports" class="nav-item nav-reports"><span class='icon-field'><i class="fa fa-th-list"></i></span> Rapports</a>				
+				<a href="index.php?page=rapports" class="nav-item nav-reports"><span class='icon-field'><i class="fa fa-th-list"></i></span> Rapports</a>				
 				<?php if($_SESSION['login_type'] == 1): ?>
 				<a href="index.php?page=users" class="nav-item nav-users"><span class='icon-field'><i class="fa fa-users"></i></span> Utilisateurs</a>
 			<?php endif; ?>

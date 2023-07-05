@@ -55,7 +55,7 @@ header("location:index.php?page=dashboard");
 <body>
 
 
-  <main id="main" class=" bg-dark">
+  <main id="main" class="bg-dark">
   	
   		<div id="login-right">
   			<div class="card col-md-8">
