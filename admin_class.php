@@ -137,55 +137,57 @@ Class Action {
 			return 1;
 	}
 
-	function save_laundry(){
-		extract($_POST);
-		$data = "nom_client = '$nom_client' ";
-		$data .= ", montant_total = '$tendered' ";
-		$data .= ", montant_paye = '$tamount' ";
-		$data .= ", montant_restant = '$change' ";
-		if(isset($pay)){
-			$data .= ", pay_status = '1' ";
-		}
-		if(isset($status)){
-			$data .= ", status = '$status' ";
-		}
-		if(empty($id)){
-			$attente = $this->db->query("SELECT `attente` FROM commandes where status != 3 order by id desc limit 1");
-			$attente = $attente->num_rows > 0 ? $attente->fetch_array()['attente'] + 1 : 1;
-			$data .= ", attente = '$attente' ";
-			$save = $this->db->query("INSERT INTO commandes set ".$data);
-			if($save){
-				$id = $this->db->insert_id;
-				foreach ($weight as $key => $value) {
-					$items = " article_id = '$id' ";
-					$items .= ", categories_id = '$categories_id[$key]' ";
-					$items .= ", weight = '$weight[$key]' ";
-					$items .= ", prix_unitaire = '$prix_unitaire[$key]' ";
-					$items .= ", montant = '$montant[$key]' ";
-					$save2 = $this->db->query("INSERT INTO articles set ".$items);
-				}
-				return 1;
-			}        
-		}else{
-			$save = $this->db->query("UPDATE commandes set ".$data." where id=".$id);
-			if($save){
-				$this->db->query("DELETE FROM articles where id not in (".implode(',',$item_id).") ");
-				foreach ($weight as $key => $value) {
-					$items = " article_id = '$id' ";
-					$items .= ", categories_id = '$categories_id[$key]' ";
-					$items .= ", weight = '$weight[$key]' ";
-					$items .= ", prix_unitaire = '$prix_unitaire[$key]' ";
-					$items .= ", montant = '$montant[$key]' ";
-					if(empty($item_id[$key])){
-						$save2 = $this->db->query("INSERT INTO articles set ".$items);
-					}else{
-						$save2 = $this->db->query("UPDATE articles set ".$items." where id=".$item_id[$key]);
-					}
-				}
-				return 1;
-			}    
-		}
-	}
+	function save_laundry()
+{
+    extract($_POST);
+    $data = "nom_client = '$nom_client' ";
+    $data .= ", montant_total = '$montant_total' ";
+    $data .= ", montant_paye = '$montant_paye' ";
+    $data .= ", montant_restant = '$montant_restant' ";
+    if (isset($pay)) {
+        $data .= ", pay_status = '1' ";
+    }
+    if (isset($status)) {
+        $data .= ", status = '$status' ";
+    }
+    if (empty($id)) {
+        $attente = $this->db->query("SELECT `attente` FROM commandes WHERE status != 3 ORDER BY id DESC LIMIT 1");
+        $attente = $attente->num_rows > 0 ? $attente->fetch_array()['attente'] + 1 : 1;
+        $data .= ", attente = '$attente' ";
+        $save = $this->db->query("INSERT INTO commandes SET " . $data);
+        if ($save) {
+            $id = $this->db->insert_id;
+            foreach ($weight as $key => $value) {
+                $items = " article_id = '$id' ";
+                $items .= ", categories_id = '$categories_id[$key]' ";
+                $items .= ", weight = '$weight[$key]' ";
+                $items .= ", prix_unitaire = '$prix_unitaire[$key]' ";
+                $items .= ", montant = '$montant[$key]' ";
+                $save2 = $this->db->query("INSERT INTO articles SET " . $items);
+            }
+            return 1;
+        }
+    } else {
+        $save = $this->db->query("UPDATE commandes SET " . $data . " WHERE id=" . $id);
+        if ($save) {
+            $this->db->query("DELETE FROM articles WHERE id NOT IN (" . implode(',', $item_id) . ")");
+            foreach ($weight as $key => $value) {
+                $items = " article_id = '$id' ";
+                $items .= ", categories_id = '$categories_id[$key]' ";
+                $items .= ", weight = '$weight[$key]' ";
+                $items .= ", prix_unitaire = '$prix_unitaire[$key]' ";
+                $items .= ", montant = '$montant[$key]' ";
+                if (empty($item_id[$key])) {
+                    $save2 = $this->db->query("INSERT INTO articles SET " . $items);
+                } else {
+                    $save2 = $this->db->query("UPDATE articles SET " . $items . " WHERE id=" . $item_id[$key]);
+                }
+            }
+            return 1;
+        }
+    }
+}
+
 	
 	function delete_laundry(){
 		extract($_POST);

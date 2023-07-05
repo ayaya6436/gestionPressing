@@ -86,13 +86,13 @@
 <script>
 	$('table').dataTable()
 	$('#manage-supply').click(function(){
-		uni_modal("Manage Supply","manage_stock.php")
+		uni_modal("Gestion Stock","manage_stock.php")
 	})
 	$('.edit_stock').click(function(){
-		uni_modal("Manage Supply","manage_stock.php?id="+$(this).attr('data-id'))
+		uni_modal("Gestion Stock","manage_stock.php?id="+$(this).attr('data-id'))
 	})
 	$('.delete_stock').click(function(){
-		_conf("Are you sre to remove this data from list?","delete_stock",[$(this).attr('data-id')])
+		_conf("Voulez vous supprimer ce produit du stock?","delete_stock",[$(this).attr('data-id')])
 	})
 	$('#laundry-list').dataTable()
 	function delete_stock($id){
@@ -103,7 +103,7 @@
 			data:{id:$id},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully deleted",'success')
+					alert_toast("Produit supprimer avec success",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)

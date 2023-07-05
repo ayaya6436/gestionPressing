@@ -18,7 +18,7 @@
 								<textarea name="nom" id="" cols="30" rows="2" class="form-control"></textarea>
 							</div>
 							<div class="form-group">
-								<label class="control-label">Prix par nombre</label>
+								<label class="control-label">Prix </label>
 								<input type="number" class="form-control text-right" min="1" step="any" name="prix">
 							</div>
 							

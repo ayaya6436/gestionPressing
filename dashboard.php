@@ -31,12 +31,12 @@
 				<hr>
 					<p class="text-right"><b><large><?php 
 					include 'db_connect.php';
-					// $laundry = $conn->query("SELECT SUM(total_amount) as amount FROM commandes where pay_status= 1 and date(date_created)= '".date('Y-m-d')."'");
-					// echo $laundry->num_rows > 0 ? number_format($laundry->fetch_array()['amount'],2) : "0.00";
+					$commande = $conn->query("SELECT SUM(montant_total) as montant FROM commandes where pay_status= 1 and date(date_creation)= '".date('Y-m-d')."'");
+					echo $commande->num_rows > 0 ? number_format($commande->fetch_array()['montant'],2) : "0.00";
 					
 
 					 ?></large></b></p>
-					 5000 Fcfa
+					
 				</div>
 				<div class="alert alert-info col-md-3 ml-4">
 					<p><b><large>Total Client du jour</large></b></p>
