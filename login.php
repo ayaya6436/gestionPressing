@@ -22,7 +22,7 @@ header("location:index.php?page=dashboard");
 	body{
 		width: 100%;
 	    height: calc(100%);
-	    /*background: #007bff;*/
+	    background: #007bff;
 	}
 	main#main{
 		width:100%;
