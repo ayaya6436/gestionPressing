@@ -22,7 +22,7 @@
 				<table class="table-striped table-bordered col-md-12">
 			<thead>
 				<tr>
-					<th class="text-center">#</th>
+					<th class="text-center">Numero</th>
 					<th class="text-center">Nom</th>
 					<th class="text-center">Prenom</th>
 					<th class="text-center">Email</th>

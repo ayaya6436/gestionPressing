@@ -22,7 +22,7 @@ header("location:index.php?page=dashboard");
 	body{
 		width: 100%;
 	    height: calc(100%);
-	    background: #007bff;
+	    /* background: #007bff; */
 	}
 	main#main{
 		width:100%;
@@ -66,7 +66,7 @@ header("location:index.php?page=dashboard");
   							<input type="email" id="email" name="email" class="form-control">
   						</div>
   						<div class="form-group">
-  							<label for="password" class="control-label">Password</label>
+  							<label for="password" class="control-label">Mot de passe</label>
   							<input type="password" id="password" name="password" class="form-control">
   						</div>
   						<center><button class="btn-sm btn-block btn-wave col-md-4 btn-primary">Connexion</button></center>
